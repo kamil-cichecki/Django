@@ -28,12 +28,19 @@ class Room(models.Model):
     rent_cost = models.DecimalField(max_digits=10, decimal_places=2)
 
 class User(models.Model):
+
+    ROLE = (
+        (0, 'Student'),
+        (1, 'Manager'),
+        (2, 'Administrator')
+    )
+
     login = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
     first_name = models.CharField(max_length=60) #najdłuższe imie ma 57 znakow
     last_name = models.CharField(max_length=60)
     room_id = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
-    role = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
+    role = models.IntegerField(choices=ROLE, validators=[MinValueValidator(0), MaxValueValidator(5)])
     student_status = models.BooleanField(default=True)
     washes_number = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=5)
 
@@ -52,7 +59,7 @@ class Report(models.Model):
             )
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.CharField(max_length=50, choices=STATUS)
+    status = models.CharField(max_length=50, choices=STATUS, default='Przyjęto')
     title = models.CharField(max_length=200, help_text="tytuł zgłoszenia")
     type = models.CharField(max_length=50, choices=TYPE)
     content = models.TextField(help_text="szczegóły zgłoszenia")
@@ -64,6 +71,11 @@ class Laundry(models.Model):
     reservation_end = models.DateTimeField(help_text="Data i godzina zakończenia prania")
 
 class Payment(models.Model):
+
+    STATUS = (
+            ('Opłacone', 'Opłacone'),
+            ('Nieopłacone', 'Nieopłacone')
+            )
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
