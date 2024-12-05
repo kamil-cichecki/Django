@@ -3,10 +3,22 @@ import React from 'react';
 import { useState } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { MdOutlinePassword } from 'react-icons/md';
-import { loginUser } from '@/lib/auth';
+//import { loginUser } from '@/lib/auth';
+
+const loginUser = async (login, password) => {
+  const response = await fetch('http://127.0.0.1:8000/login/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ login, password }),
+  });
+
+  const data = await response.json();
+  console.log(data);
+  return data;
+};
 
 export default function User() {
-  const [email, setEmail] = useState('');
+  const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
@@ -15,7 +27,7 @@ export default function User() {
     setError(null);
 
     try {
-      const data = await loginUser(email, password);
+      const data = await loginUser(login, password);
       localStorage.setItem('access', data.access);
       localStorage.setItem('refresh', data.refresh);
       alert('Logged in successfully!');
@@ -34,9 +46,9 @@ export default function User() {
               <FaUser />
             </label>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="login"
+              value={login}
+              onChange={(e) => setLogin(e.target.value)}
               required
               className="rounded-lg pl-2 text-black"
               placeholder="E-mail"
