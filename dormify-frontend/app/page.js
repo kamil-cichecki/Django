@@ -1,13 +1,11 @@
 'use client';
 import { useState } from 'react';
 import Image from 'next/image';
-import { LampContainer } from '@/components/lamp';
 
 export default function Home() {
   return (
     <div className="w-full items-center flex flex-col justify-center">
       <h2 className="text-white text-6xl text-center font-bolder mt-32">
-        <LampContainer />
         Witamy w Dormify
       </h2>
       <div className="flex flex-row w-[80%] gap-20 items-center justify-center">
