@@ -26,6 +26,8 @@ export default function User() {
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center text-white">
+      <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#001_60%,#61e_100%)]"></div>
+
       <div className="bg-violet-950 w-[400px] h-[600px] bg-opacity-50 rounded-xl border-t-4 flex flex-col items-center relative">
         <h1 className="text-3xl mt-9 opacity-70">Logowanie</h1>
         <form onSubmit={handleSubmit} className="gap-8 flex flex-col mt-32 ">
