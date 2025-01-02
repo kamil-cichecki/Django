@@ -37,7 +37,7 @@ class User(models.Model):
 
     login = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
-    first_name = models.CharField(max_length=60) #najdłuższe imie ma 57 znakow
+    first_name = models.CharField(max_length=60)
     last_name = models.CharField(max_length=60)
     room_id = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
     role = models.IntegerField(choices=ROLE, validators=[MinValueValidator(0), MaxValueValidator(5)])

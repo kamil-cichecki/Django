@@ -4,6 +4,7 @@ import Image from 'next/image';
 import HomeInfo from '@/components/Home/HomeInfo';
 import Footer from '@/components/Footer/Footer';
 import Navbar from '@/components/Navbar/Navbar';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -22,6 +23,11 @@ export default function Home() {
               wygoda w jednym miejscu!
             </p>
           </div>
+        </div>
+        <div className="w-full mt-9 flex text-center justify-center items-center">
+          <button className="text-black font-bold text-2xl bg-gray-100 p-4 rounded-xl border-2">
+            <Link href="/rejestracja">Zgłoś budynek</Link>
+          </button>
         </div>
       </div>
       <HomeInfo />

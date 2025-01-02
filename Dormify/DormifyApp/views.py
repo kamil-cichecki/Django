@@ -18,10 +18,10 @@ def user_login(request):
             print(login, password)
 
             user = User.objects.get(login=login)
-            if user.password == password: #hash hasla potem
+            if user.password == password:
                 refresh = RefreshToken.for_user(user)
                 request.session['user_id'] = user.id
-                                #Zrobić tutaj generowanie tokena JWT i wysłać w odpowiedzi, pozdrawiam :)
+                                
                 return JsonResponse({'message': 'Zalogowano pomyślnie!', 
                                     'access': str(refresh.access_token),
                                     'refresh': str(refresh),}, status=200)

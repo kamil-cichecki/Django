@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default function Footer() {
-  return <div>Footer r</div>;
+  return <div className="h-screen">Footer</div>;
 }
