@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from ninja import NinjaAPI
 from DormifyApp.views.user_views import user_login
+from DormifyApp.views.dormitory_views import register_dormitory
 
 #ninja Django
 api = NinjaAPI()
@@ -30,4 +31,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", api.urls),
     path('login/', user_login, name='user_login'),
+    path('register_dormitory/', register_dormitory, name='register_dormitory')
 ]

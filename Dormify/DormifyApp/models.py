@@ -7,8 +7,9 @@ class Dormitory(models.Model):
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=300)
     manager = models.CharField(max_length=200, help_text="kierownik akademika")
-    population = models.IntegerField(help_text="liczba mieszkańców")
-    room_count = models.IntegerField(help_text="liczba pokoi")
+    population = models.IntegerField(help_text="liczba mieszkańców", default=0)
+    room_count = models.IntegerField(help_text="liczba pokoi", default=0)
+    isAccepted = models.BooleanField(default=False)
 
 
 class Room(models.Model):
