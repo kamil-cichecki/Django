@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
 
@@ -18,10 +19,12 @@ def user_login(request):
 
             user = User.objects.get(login=login)
             if user.password == password: #hash hasla potem
-
+                refresh = RefreshToken.for_user(user)
                 request.session['user_id'] = user.id
                                 #Zrobić tutaj generowanie tokena JWT i wysłać w odpowiedzi, pozdrawiam :)
-                return JsonResponse({'message': 'Zalogowano pomyślnie!'}, status=200)
+                return JsonResponse({'message': 'Zalogowano pomyślnie!', 
+                                    'access': str(refresh.access_token),
+                                    'refresh': str(refresh),}, status=200)
             else:
                 return JsonResponse({'error': 'Nieprawidłowe dane logowania'}, status=400)
         except Exception as e:

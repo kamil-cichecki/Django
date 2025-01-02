@@ -3,19 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { MdOutlinePassword } from 'react-icons/md';
-//import { loginUser } from '@/lib/auth';
-
-const loginUser = async (login, password) => {
-  const response = await fetch('http://127.0.0.1:8000/login/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ login, password }),
-  });
-
-  const data = await response.json();
-  console.log(data);
-  return data;
-};
+import { loginUser } from '@/lib/auth';
 
 export default function User() {
   const [login, setLogin] = useState('');
