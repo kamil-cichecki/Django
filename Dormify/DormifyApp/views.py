@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from rest_framework_simplejwt.tokens import RefreshToken
-
+#Test
 from .models import User
 
 def user_login(request):
