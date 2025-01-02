@@ -24,5 +24,7 @@ def register_dormitory(request):
             return JsonResponse({'message': 'Akademik został zarejestrowany pomyślnie!'}, status=200)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
+        
+#leno
     
 
