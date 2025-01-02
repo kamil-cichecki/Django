@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from ninja import NinjaAPI
-from DormifyApp.views import user_login
+from DormifyApp.views.user_views import user_login
 
 #ninja Django
 api = NinjaAPI()
@@ -29,5 +29,5 @@ def add(request, a: int, b: int):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", api.urls),
-    path('login/', user_login, name='login'),
+    path('login/', user_login, name='user_login'),
 ]
