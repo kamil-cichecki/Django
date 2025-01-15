@@ -3,7 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { MdOutlinePassword } from 'react-icons/md';
-import { loginUser } from '@/lib/auth';
+import { registerDom } from '@/lib/registerDom';
 
 export default function User() {
   const [name, setName] = useState('');
@@ -19,10 +19,15 @@ export default function User() {
     setError(null);
 
     try {
-      const data = await loginUser(login, password);
-      localStorage.setItem('access', data.access);
-      localStorage.setItem('refresh', data.refresh);
-      alert('Logged in successfully!');
+      const data = await registerDom(
+        name,
+        street,
+        streetNumber,
+        pCode,
+        city,
+        manager
+      );
+      alert('Zarejestrowano pomyślnie');
     } catch (err) {
       setError(err.message);
     }

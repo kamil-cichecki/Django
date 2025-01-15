@@ -16,14 +16,29 @@ def user_login(request):
 
             print(login, password)
 
+            userData = User.objects.all()
+            user_list = [
+                {
+                    "id": user.id,
+                    "login": user.login,
+                    "imie": user.first_name,
+                    "nazwisko": user.last_name,
+                    "rola": user.role,
+                }
+            for user in userData
+        ]
+
             user = User.objects.get(login=login)
             if user.password == password:
                 refresh = RefreshToken.for_user(user)
                 request.session['user_id'] = user.id
                                 
-                return JsonResponse({'message': 'Zalogowano pomyślnie!', 
-                                    'access': str(refresh.access_token),
-                                    'refresh': str(refresh),}, status=200)
+                return JsonResponse({
+                    'message': 'Zalogowano pomyślnie!',
+                    'access': str(refresh.access_token),
+                    'refresh': str(refresh),
+                    'users': user_list,
+                }, status=200)
             else:
                 return JsonResponse({'error': 'Nieprawidłowe dane logowania'}, status=400)
         except Exception as e:

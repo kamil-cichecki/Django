@@ -33,7 +33,7 @@ export default function Navbar() {
             onClick={handleClickAdmin}
             className="border-2 rounded-lg bg-violet-950 border-violet-950 p-2"
           >
-            Administracja
+            Menadżer
           </button>
         </div>
       </nav>
