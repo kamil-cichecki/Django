@@ -65,14 +65,4 @@ def accept_dormitory(request, dormitory_id):
             return JsonResponse({"error": "Akademik o podanym ID nie istnieje"}, status=404)
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
-def delete_dormitory(request, dormitory_id):
-    if request.method == 'DELETE':
-        try:
-            dormitory = Dormitory.objects.get(id=dormitory_id)
-            dormitory.delete()
-            return JsonResponse({"message": "Akademik został usunięty pomyślnie!"}, status=200)
-        except Dormitory.DoesNotExist:
-            return JsonResponse({"error": "Akademik o podanym ID nie istnieje"}, status=404)
-    return JsonResponse({"error": "Invalid request method"}, status=400)
-    
 

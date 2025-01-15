@@ -34,7 +34,6 @@ urlpatterns = [
     path('login/', user_login, name='user_login'),
     path('register_dormitory/', register_dormitory, name='register_dormitory'),
     path('allDormitories/', get_all_dormitories, name='get_all_dormitories'),
-    path('dormitories/<int:dormitory_id>/', delete_dormitory, name='delete_dormitory'),
     path('dormitories/<int:dormitory_id>/accept/', accept_dormitory, name='accept_dormitory'),
     path('dormitories/<int:dormitory_id>/delete/', delete_dormitory, name='delete_dormitory')
 ]
