@@ -30,6 +30,7 @@ def get_all_dormitories(request):
         dormitories = Dormitory.objects.all()
         dormitories_list = [
             {
+                "id": dorm.id,
                 "name": dorm.name,
                 "address": dorm.address,
                 "manager": dorm.manager,
