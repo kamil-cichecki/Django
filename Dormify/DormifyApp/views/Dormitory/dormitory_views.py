@@ -25,6 +25,32 @@ def register_dormitory(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
         
-#leno
+def get_all_dormitories(request):
+    if request.method == 'GET':
+        dormitories = Dormitory.objects.all()
+        dormitories_list = [
+            {
+                "name": dorm.name,
+                "address": dorm.address,
+                "manager": dorm.manager,
+                "population": dorm.population,
+                "room_count": dorm.room_count,
+                "isAccepted": dorm.isAccepted,
+            }
+            for dorm in dormitories
+        ]
+        return JsonResponse(dormitories_list, safe=False)
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
+def delete_dormitory(request, dormitory_id):
+    if request.method == 'DELETE':
+        try:
+            dormitory = Dormitory.objects.get(id=dormitory_id)
+            dormitory.delete()
+            return JsonResponse({"message": "Akademik został usunięty pomyślnie!"}, status=200)
+        except Dormitory.DoesNotExist:
+            return JsonResponse({"error": "Akademik nie istnieje"}, status=404)
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
     
 
