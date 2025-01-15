@@ -34,7 +34,7 @@ urlpatterns = [
     path('login/', user_login, name='user_login'),
     path('register_dormitory/', register_dormitory, name='register_dormitory'),
     path('allDormitories/', get_all_dormitories, name='get_all_dormitories'),
-    path('api/dormitories/<int:dormitory_id>/', delete_dormitory, name='delete_dormitory')
+    path('dormitories/<int:dormitory_id>/', delete_dormitory, name='delete_dormitory')
 ]
 
-#test
+#test2
