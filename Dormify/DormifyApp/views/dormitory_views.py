@@ -13,12 +13,12 @@ def register_dormitory(request):
             name = data.get('name')
             address = data.get('address')
             manager = data.get('manager')
-            is_accepted = data.get('isAccepted', False)
+            isAccepted = data.get('isAccepted', False)
 
             if Dormitory.objects.filter(name=name).exists():
                 return JsonResponse({'error': 'Akademik o tej nazwie już istnieje'}, status=400)
             
-            new_dormitory = Dormitory(name=name, address = address, manager=manager, is_accepted = is_accepted)
+            new_dormitory = Dormitory(name=name, address = address, manager=manager, isAccepted = isAccepted)
             new_dormitory.save()
 
             return JsonResponse({'message': 'Akademik został zarejestrowany pomyślnie!'}, status=200)
