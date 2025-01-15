@@ -33,3 +33,5 @@ urlpatterns = [
     path('login/', user_login, name='user_login'),
     path('register_dormitory/', register_dormitory, name='register_dormitory')
 ]
+
+#test
