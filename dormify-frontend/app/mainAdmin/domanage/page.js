@@ -1,18 +1,42 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { getDoms } from '@/lib/getDoms';
+import { removeDom } from '@/lib/removeDom';
+import { acceptDom } from '@/lib/acceptDom';
 
 const Domanage = () => {
   const [doms, setDoms] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
-      const data = await getDoms();
-      setDoms(data);
-      console.log(data);
+      try {
+        const data = await getDoms();
+        setDoms(data);
+      } catch (error) {
+        console.error('Error fetching dormitories:', error);
+      }
     };
     getData();
   }, []);
+
+  // Handle delete action
+  const deleteDom = async (dormitory_id) => {
+    try {
+      await removeDom(dormitory_id);
+      setDoms((prevDoms) => prevDoms.filter((dom) => dom.id !== dormitory_id));
+    } catch (error) {
+      console.error('Error deleting dormitory:', error);
+    }
+  };
+
+  const acceptdom = async (dormitory_id) => {
+    try {
+      await acceptDom(dormitory_id);
+      setDoms((prevDoms) => prevDoms.filter((dom) => dom.id !== dormitory_id));
+    } catch (error) {
+      console.error('Error Updating dormitory:', error);
+    }
+  };
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center text-white">
@@ -32,8 +56,8 @@ const Domanage = () => {
             </tr>
           </thead>
           <tbody>
-            {doms.map((domitory, index) => (
-              <tr key={index}>
+            {doms.map((domitory) => (
+              <tr key={domitory.id}>
                 <td className="border border-gray-700 p-2">{domitory.name}</td>
                 <td className="border border-gray-700 p-2">
                   {domitory.address}
@@ -52,15 +76,24 @@ const Domanage = () => {
                 </td>
                 <td className="border border-gray-700 p-2">
                   {domitory.isAccepted ? (
-                    <div>
-                      <button className="text-red-800 w-full">Usuń</button>
-                    </div>
+                    <button
+                      onClick={() => deleteDom(domitory.id)}
+                      className="text-red-800 w-full"
+                    >
+                      Usuń
+                    </button>
                   ) : (
                     <div className="flex flex-row gap-2 justify-between">
-                      <button className="bg-green-800 text-white rounded-lg w-[50%] p-2">
+                      <button
+                        onClick={() => acceptdom(domitory.id)}
+                        className="bg-green-800 text-white rounded-lg w-[50%] p-2"
+                      >
                         Akceptuj
                       </button>
-                      <button className="bg-red-800 text-white rounded-lg w-[50%] p-2">
+                      <button
+                        onClick={() => deleteDom(domitory.id)}
+                        className="bg-red-800 text-white rounded-lg w-[50%] p-2"
+                      >
                         Odrzuć
                       </button>
                     </div>
