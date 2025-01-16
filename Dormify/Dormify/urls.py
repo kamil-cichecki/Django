@@ -19,6 +19,7 @@ from django.urls import path
 from ninja import NinjaAPI
 from DormifyApp.views.User.user_views import user_login
 from DormifyApp.views.Dormitory.dormitory_views import register_dormitory, get_all_dormitories, delete_dormitory, accept_dormitory, delete_dormitory
+from DormifyApp.views.Room.room_views import add_room_to_dormitory
 
 
 #ninja Django
@@ -33,9 +34,12 @@ urlpatterns = [
     path("api/", api.urls),
     path('login/', user_login, name='user_login'),
     path('register_dormitory/', register_dormitory, name='register_dormitory'),
+    #Dormitory
     path('allDormitories/', get_all_dormitories, name='get_all_dormitories'),
     path('dormitories/<int:dormitory_id>/accept/', accept_dormitory, name='accept_dormitory'),
-    path('dormitories/<int:dormitory_id>/delete/', delete_dormitory, name='delete_dormitory')
+    path('dormitories/<int:dormitory_id>/delete/', delete_dormitory, name='delete_dormitory'),
+    #Room
+    path('rooms/add/', add_room_to_dormitory, name='add_room_to_dormitory'),
 ]
 
 #test2
