@@ -18,12 +18,11 @@ export default function mainAdmin() {
       const data = await loginUser(login, password);
       const user = await data.users;
 
-      if (user[0].rola == 1) {
+      if (user[0].rola == 2) {
         localStorage.setItem('access', data.access);
         localStorage.setItem('refresh', data.refresh);
-        alert('Logged in successfully!');
       } else {
-        alert('no access to webside!');
+        alert('Brak użytkownika!');
       }
     } catch (err) {
       setError(err.message);
