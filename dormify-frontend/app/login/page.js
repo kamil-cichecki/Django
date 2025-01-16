@@ -5,7 +5,7 @@ import { FaUser } from 'react-icons/fa';
 import { MdOutlinePassword } from 'react-icons/md';
 import { loginUser } from '@/lib/auth';
 
-export default function User() {
+export default function Admin() {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -16,9 +16,14 @@ export default function User() {
 
     try {
       const data = await loginUser(login, password);
-      localStorage.setItem('access', data.access);
-      localStorage.setItem('refresh', data.refresh);
-      alert('Logged in successfully!');
+      const user = await data.users;
+
+      if (user[0].rola == 0) {
+        localStorage.setItem('access', data.access);
+        localStorage.setItem('refresh', data.refresh);
+      } else {
+        alert('Brak użytkownika!');
+      }
     } catch (err) {
       setError(err.message);
     }
