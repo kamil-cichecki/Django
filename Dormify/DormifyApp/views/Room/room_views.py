@@ -3,6 +3,38 @@ from django.core.exceptions import ValidationError
 from DormifyApp.models import Dormitory, Room
 import json
 
+
+def get_all_rooms(request):
+    if request.method == 'GET':
+        rooms = Room.objects.all()
+        rooms_list = [
+            {
+                "id": room.id,
+                "dormitory_id": room.dormitory_id.id,
+                "room_number": room.room_number,
+                "capacity": room.capacity,
+                "tenant_count": room.tenant_count,
+                "type": room.type,
+                "floor": room.floor,
+                "rent_cost": str(room.rent_cost),
+            }
+            for room in rooms
+        ]
+        return JsonResponse(rooms_list, safe=False)
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
+
+def delete_room(request, room_id):
+    if request.method == 'DELETE':
+        try:
+            room = Room.objects.get(id=room_id)
+            room.delete()
+            return JsonResponse({"message": f"Pokój o ID {room_id} został usunięty."}, status=200)
+        except Room.DoesNotExist:
+            return JsonResponse({"error": f"Pokój o ID {room_id} nie istnieje."}, status=404)
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
+
 def add_room_to_dormitory(request):
     if request.method == 'POST':
         try:
