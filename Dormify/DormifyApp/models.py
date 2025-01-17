@@ -44,6 +44,8 @@ class User(models.Model):
     role = models.IntegerField(choices=ROLE, validators=[MinValueValidator(0), MaxValueValidator(5)])
     student_status = models.BooleanField(default=True)
     washes_number = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=5)
+    dormitory_id = models.ForeignKey(Dormitory, on_delete=models.SET_NULL, null=True, blank=True)
+
 
 class Report(models.Model): 
 

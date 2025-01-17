@@ -12,7 +12,7 @@ export default function Navbar() {
 
   const handleClickAdmin = (e) => {
     e.preventDefault();
-    router.push('/admin');
+    router.push('/manager');
   };
 
   return (
