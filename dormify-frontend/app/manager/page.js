@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 import { useState } from 'react';
 import { FaUser } from 'react-icons/fa';
@@ -18,9 +19,12 @@ export default function Admin() {
       const data = await loginUser(login, password);
       const user = await data.users;
 
-      if (user[0].rola == 1) {
+      if (user.role == 1) {
         localStorage.setItem('access', data.access);
         localStorage.setItem('refresh', data.refresh);
+        localStorage.setItem('role', data.users.role);
+
+        window.location.href = '/manager/dashboard';
       } else {
         alert('Brak użytkownika!');
       }
@@ -28,7 +32,7 @@ export default function Admin() {
       setError(err.message);
     }
   };
-
+  //localStorage.clear();
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center text-white">
       <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#001_60%,#61e_100%)]"></div>
