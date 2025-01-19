@@ -117,34 +117,36 @@ const Domanage = () => {
           </table>
         </div>
       </div>
-      <div className="h-fit w-full">
+      <div className="h-fit w-full items-center justify-items-center justify-center">
         <h1 className="text-white font-bold text-2xl text-center">
           Przypisz menadżera
         </h1>
       </div>
-      <div className="flex flex-row gap-2">
-        <select
-          value={selectedDormitory}
-          onChange={(e) => setSelectedDormitory(e.target.value)}
-        >
-          <option value="">Wybierz akademik</option>
-          {doms.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </select>
-        <select
-          value={selectedUser}
-          onChange={(e) => setSelectedUser(e.target.value)}
-        >
-          <option value="">Wybierz użytkownika</option>
-          {getallusers.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.first_name + ' ' + item.last_name}
-            </option>
-          ))}
-        </select>
+      <div className="flex flex-col gap-2 w-full items-center justify-center">
+        <div className="flex flex-row gap-4 mt-7">
+          <select
+            value={selectedDormitory}
+            onChange={(e) => setSelectedDormitory(e.target.value)}
+          >
+            <option value="">Wybierz akademik</option>
+            {doms.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+          <select
+            value={selectedUser}
+            onChange={(e) => setSelectedUser(e.target.value)}
+          >
+            <option value="">Wybierz użytkownika</option>
+            {getallusers.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.first_name + ' ' + item.last_name}
+              </option>
+            ))}
+          </select>
+        </div>
         <button
           onClick={() => {
             if (selectedDormitory && selectedUser) {
@@ -153,7 +155,7 @@ const Domanage = () => {
               alert('Wybierz akademik i użytkownika');
             }
           }}
-          className="bg-blue-600 text-white rounded-lg p-2"
+          className="bg-blue-600 text-white rounded-lg p-2 mt-7"
         >
           Przypisz
         </button>
