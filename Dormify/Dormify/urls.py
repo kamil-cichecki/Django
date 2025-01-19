@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from ninja import NinjaAPI
-from DormifyApp.views.User.user_views import user_login
+from DormifyApp.views.User.user_views import user_login, get_users_with_role, assign_dormitory
 from DormifyApp.views.Dormitory.dormitory_views import register_dormitory, get_all_dormitories, delete_dormitory, accept_dormitory, delete_dormitory
 from DormifyApp.views.Room.room_views import add_room_to_dormitory, delete_room, get_all_rooms
 
@@ -30,10 +30,13 @@ def add(request, a: int, b: int):
     return {"result": a + b}
 
 urlpatterns = [
+    #Users
     path('admin/', admin.site.urls),
     path("api/", api.urls),
     path('login/', user_login, name='user_login'),
     path('register_dormitory/', register_dormitory, name='register_dormitory'),
+    path('users/', get_users_with_role, name='get_users_with_role'),
+    path('users/assign_dormitory/',assign_dormitory, name='get_users_with_role'),
     #Dormitory
     path('allDormitories/', get_all_dormitories, name='get_all_dormitories'),
     path('dormitories/<int:dormitory_id>/accept/', accept_dormitory, name='accept_dormitory'),
