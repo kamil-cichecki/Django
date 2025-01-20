@@ -22,6 +22,7 @@ def user_login(request):
                 refresh.payload['role'] = user.role
                 refresh.payload['first_name'] = user.first_name
                 refresh.payload['last_name'] = user.last_name
+                refresh.payload['dormitory_id_id'] = user.dormitory_id_id
                 request.session['user_id'] = user.id
                 user_list = {
                     "id": user.id,
