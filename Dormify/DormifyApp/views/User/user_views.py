@@ -45,7 +45,7 @@ def user_login(request):
 
     return JsonResponse({'error': 'Metoda POST wymagana'}, status=405)
 
-def create_student(request):
+def create_student(request, dormitory_id):
     if request.method == 'POST':
         try:
             data = json.loads(request.body.decode('utf-8'))
@@ -66,7 +66,6 @@ def create_student(request):
             first_name = data.get('first_name')
             last_name = data.get('last_name')
             room_number = data.get('room_number')
-            dormitory_id = data.get('dormitory_id')
 
             try:
                 room = Room.objects.get(room_number=room_number, dormitory_id=dormitory_id)
@@ -96,6 +95,7 @@ def create_student(request):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
     return JsonResponse({"error": "Invalid request method"}, status=400)
+
 
 def get_users_with_role(request):
     if request.method == 'GET':
