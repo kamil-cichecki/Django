@@ -66,4 +66,22 @@ def accept_dormitory(request, dormitory_id):
             return JsonResponse({"error": "Akademik o podanym ID nie istnieje"}, status=404)
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
+def get_dormitory_by_id(request, dormitory_id):
+    if request.method == 'GET':
+        try:
+            dormitory = Dormitory.objects.get(id=dormitory_id)
+            dormitory_data = {
+                "id": dormitory.id,
+                "name": dormitory.name,
+                "address": dormitory.address,
+                "manager": dormitory.manager,
+                "population": dormitory.population,
+                "room_count": dormitory.room_count,
+                "isAccepted": dormitory.isAccepted,
+            }
+            return JsonResponse(dormitory_data, safe=False, status=200)
+        except Dormitory.DoesNotExist:
+            return JsonResponse({"error": "Akademik o podanym ID nie istnieje"}, status=404)
+    return JsonResponse({"error": "Metoda GET wymagana"}, status=400)
+
 
