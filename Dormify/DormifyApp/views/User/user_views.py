@@ -16,23 +16,21 @@ def user_login(request):
 
             print(login, password)
 
-            userData = User.objects.all()
-            user_list = [
-                {
-                    "id": user.id,
-                    "login": user.login,
-                    "imie": user.first_name,
-                    "nazwisko": user.last_name,
-                    "rola": user.role,
-                }
-            for user in userData
-        ]
 
             user = User.objects.get(login=login)
             if user.password == password:
                 refresh = RefreshToken.for_user(user)
+                refresh.payload['role'] = user.role
+                refresh.payload['first_name'] = user.first_name
+                refresh.payload['last_name'] = user.last_name
                 request.session['user_id'] = user.id
-                                
+                user_list = {
+                    "id": user.id,
+                    "login": user.login,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "role": user.role,
+                }
                 return JsonResponse({
                     'message': 'Zalogowano pomyślnie!',
                     'access': str(refresh.access_token),
