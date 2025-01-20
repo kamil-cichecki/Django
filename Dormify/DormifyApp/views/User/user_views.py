@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from pydantic import ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
 from DormifyApp.models import Dormitory, User, Room
 
@@ -64,28 +65,27 @@ def create_student(request):
             password = data.get('password')
             first_name = data.get('first_name')
             last_name = data.get('last_name')
-            room_id = data.get('room_id')
+            room_number = data.get('room_number')
+            dormitory_id = data.get('dormitory_id')
 
             try:
-                room = Room.objects.get(id=room_id)
+                room = Room.objects.get(room_number=room_number, dormitory_id=dormitory_id)
                 if room.tenant_count >= room.capacity:
                     return JsonResponse({"error": "Pokój jest pełny."}, status=400)
             except Room.DoesNotExist:
-                return JsonResponse({"error": "Pokój o podanym ID nie istnieje."}, status=404)
+                return JsonResponse({"error": "Pokój o podanym numerze nie istnieje w tym akademiku."}, status=404)
 
-            # Tworzenie nowego użytkownika
             new_user = User(
                 login=login,
                 password=password,
                 first_name=first_name,
                 last_name=last_name,
                 room_id=room,
-                role=0,  # Rola 0: Student
+                role=0,
             )
             new_user.full_clean()
             new_user.save()
 
-            # Zwiększanie liczby mieszkańców w pokoju
             room.tenant_count += 1
             room.save()
 
