@@ -36,7 +36,6 @@ def get_all_dormitories(request):
                 "manager": dorm.manager,
                 "population": dorm.population,
                 "room_count": dorm.room_count,
-                
                 "isAccepted": dorm.isAccepted,
             }
             for dorm in dormitories
