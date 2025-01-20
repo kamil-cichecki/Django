@@ -43,7 +43,7 @@ urlpatterns = [
     path('dormitories/<int:dormitory_id>/delete/', delete_dormitory, name='delete_dormitory'),
     #Room
     path('rooms/add/', add_room_to_dormitory, name='add_room_to_dormitory'),
-    path('rooms/', get_all_rooms, name='get_all_rooms'),
+     path('rooms/', get_all_rooms, name='get_all_rooms'),
     path('rooms/<int:room_id>/', delete_room, name='delete_room')
 ]
 
