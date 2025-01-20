@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IoSearchOutline } from 'react-icons/io5';
 import { IoIosSettings } from 'react-icons/io';
 
 const Searchbar = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (onSearch) {
+      onSearch(searchTerm);
+    }
+  };
+
   return (
     <div className="flex flex-row w-full h-[7%] rounded-lg items-center justify-between p-4 bg-white">
       <div className="bg-gray-200 w-64 h-9 rounded-lg flex flex-row items-center p-2">
