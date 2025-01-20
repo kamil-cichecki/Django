@@ -4,11 +4,10 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from rest_framework_simplejwt.tokens import RefreshToken
-from DormifyApp.models import Dormitory, User
+from DormifyApp.models import Dormitory, User, Room
 
 def user_login(request):
     if request.method == 'POST':
-        # Odczytanie danych z requestu
         try:
             data = json.loads(request.body.decode('utf-8'))
             login = data.get('login')
@@ -43,6 +42,59 @@ def user_login(request):
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Metoda POST wymagana'}, status=405)
+
+def create_student(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+
+            manager_id = request.session.get('user_id')
+            if manager_id is None:
+                return JsonResponse({"error": "Brak autoryzacji. Zaloguj się jako Manager."}, status=403)
+            
+            try:
+                manager = User.objects.get(id=manager_id)
+                if manager.role != 1:
+                    return JsonResponse({"error": "Tylko Manager może tworzyć mieszkańców akademika."}, status=403)
+            except User.DoesNotExist:
+                return JsonResponse({"error": "Nieprawidłowy Manager."}, status=403)
+
+            login = data.get('login')
+            password = data.get('password')
+            first_name = data.get('first_name')
+            last_name = data.get('last_name')
+            room_id = data.get('room_id')
+
+            try:
+                room = Room.objects.get(id=room_id)
+                if room.tenant_count >= room.capacity:
+                    return JsonResponse({"error": "Pokój jest pełny."}, status=400)
+            except Room.DoesNotExist:
+                return JsonResponse({"error": "Pokój o podanym ID nie istnieje."}, status=404)
+
+            # Tworzenie nowego użytkownika
+            new_user = User(
+                login=login,
+                password=password,
+                first_name=first_name,
+                last_name=last_name,
+                room_id=room,
+                role=0,  # Rola 0: Student
+            )
+            new_user.full_clean()
+            new_user.save()
+
+            # Zwiększanie liczby mieszkańców w pokoju
+            room.tenant_count += 1
+            room.save()
+
+            return JsonResponse({"message": "Mieszkaniec został pomyślnie dodany!", "student_id": new_user.id}, status=201)
+
+        except ValidationError as e:
+            return JsonResponse({"error": e.message_dict}, status=400)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": "Invalid request method"}, status=400)
 
 def get_users_with_role(request):
     if request.method == 'GET':
