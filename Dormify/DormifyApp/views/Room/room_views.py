@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.db import transaction #atomowość 
 from django.core.exceptions import ValidationError
 from DormifyApp.models import Dormitory, Room
 import json
@@ -28,10 +29,18 @@ def delete_room(request, room_id):
     if request.method == 'DELETE':
         try:
             room = Room.objects.get(id=room_id)
-            room.delete()
+            dormitory = room.dormitory_id
+
+            with transaction.atomic():
+                dormitory.capacity -= room.capacity
+                dormitory.save()
+                room.delete()
+
             return JsonResponse({"message": f"Pokój o ID {room_id} został usunięty."}, status=200)
         except Room.DoesNotExist:
             return JsonResponse({"error": f"Pokój o ID {room_id} nie istnieje."}, status=404)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
 
@@ -63,12 +72,56 @@ def add_room_to_dormitory(request):
                 rent_cost=rent_cost
             )
 
-            new_room.full_clean()
-            new_room.save()
+            with transaction.atomic():
+                new_room.full_clean()
+                new_room.save()
+                dormitory.capacity += capacity
+                dormitory.save()
 
             return JsonResponse({"message": "Pokój został pomyślnie dodany!"}, status=201)
         except ValidationError as e:
             return JsonResponse({"error": e.message_dict}, status=400)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
+
+def get_room_status_by_dormitory(request, dormitory_id):
+    if request.method == 'GET':
+        try:
+            try:
+                dormitory = Dormitory.objects.get(id=dormitory_id)
+            except Dormitory.DoesNotExist:
+                return JsonResponse({"error": "Akademik o podanym ID nie istnieje"}, status=404)
+
+            rooms = Room.objects.filter(dormitory_id=dormitory_id)
+            room_status_list = [
+                {
+                    "room_id": room.id,
+                    "room_number": room.room_number,
+                    "dormitory_id": room.dormitory_id.id,
+                    "dormitory_name": room.dormitory_id.name,
+                    "capacity": room.capacity,
+                    "tenant_count": room.tenant_count,
+                    "status": f"{room.tenant_count}/{room.capacity}",
+                    "is_full": room.tenant_count == room.capacity,
+                    "has_space": room.tenant_count < room.capacity,
+                    "room_type": room.type,
+                    "floor": room.floor,
+                    "rent_cost": room.rent_cost,
+                }
+                for room in rooms
+            ]
+
+            return JsonResponse({
+                "dormitory": {
+                    "id": dormitory.id,
+                    "name": dormitory.name,
+                    "address": dormitory.address,
+                    "manager": dormitory.manager
+                },
+                "rooms": room_status_list
+            }, safe=False, status=200)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
     return JsonResponse({"error": "Invalid request method"}, status=400)
