@@ -49,17 +49,6 @@ def create_student(request):
         try:
             data = json.loads(request.body.decode('utf-8'))
 
-            manager_id = request.session.get('user_id')
-            if manager_id is None:
-                return JsonResponse({"error": "Brak autoryzacji. Zaloguj się jako Manager."}, status=403)
-            
-            try:
-                manager = User.objects.get(id=manager_id)
-                if manager.role != 1:
-                    return JsonResponse({"error": "Tylko Manager może tworzyć mieszkańców akademika."}, status=403)
-            except User.DoesNotExist:
-                return JsonResponse({"error": "Nieprawidłowy Manager."}, status=403)
-
             login = data.get('login')
             password = data.get('password')
             first_name = data.get('first_name')
