@@ -45,6 +45,23 @@ def user_login(request):
 
     return JsonResponse({'error': 'Metoda POST wymagana'}, status=405)
 
+def get_latest_users(request, dormitory_id):
+    if request.method == 'GET':
+        users = User.objects.filter(dormitory_id=dormitory_id, role=0).order_by('-id')[:3]
+        users_list = [
+            {
+                "id": user.id,
+                "login": user.login,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "room_number": user.room_id,
+                "dormitory_id": user.dormitory_id.id,
+            }
+            for user in users
+        ]
+        return JsonResponse(users_list, safe=False)
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
 def create_student(request):
     if request.method == 'POST':
         try:
@@ -55,10 +72,16 @@ def create_student(request):
             first_name = data.get('first_name')
             last_name = data.get('last_name')
             room_number = data.get('room_number')
-            dormitory_id = data.get('dormitory_id')
+            dormitoryid = data.get('dormitory_id')
 
             try:
-                room = Room.objects.get(room_number=room_number, dormitory_id=dormitory_id)
+                dormitory = Dormitory.objects.get(id=dormitoryid)
+            except Dormitory.DoesNotExist:
+                return JsonResponse({"error": "Akademik o podanym ID nie istnieje."}, status=404)
+
+
+            try:
+                room = Room.objects.get(room_number=room_number, dormitory_id=dormitory)
                 if room.tenant_count >= room.capacity:
                     return JsonResponse({"error": "Pokój jest pełny."}, status=400)
             except Room.DoesNotExist:
@@ -71,6 +94,7 @@ def create_student(request):
                 last_name=last_name,
                 room_id=room,
                 role=0,
+                dormitory_id=dormitory,
             )
             new_user.full_clean()
             new_user.save()

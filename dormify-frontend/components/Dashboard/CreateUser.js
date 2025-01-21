@@ -6,7 +6,7 @@ const CreateUser = () => {
   const accessToken = localStorage.getItem('access');
   const decodedPayload = jwtDecode(accessToken);
 
-  const data = decodedPayload.dormitory_id_id;
+  const dormitoryId = decodedPayload.dormitory_id_id;
 
   const [formData, setFormData] = useState({
     login: '',
@@ -14,7 +14,7 @@ const CreateUser = () => {
     first_name: '',
     last_name: '',
     room_number: '',
-    dormitory_id: data,
+    dormitory_id: dormitoryId,
   });
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
@@ -48,7 +48,8 @@ const CreateUser = () => {
           password: '',
           first_name: '',
           last_name: '',
-          room_id: '',
+          room_number: '',
+          dormitory_id: dormitoryId,
         });
       } else {
         setError(result.error || 'Wystąpił błąd podczas przetwarzania.');
@@ -59,15 +60,20 @@ const CreateUser = () => {
   };
 
   return (
-    <div className="w-[40%] h-96 bg-white rounded-lg flex flex-col items-center text-black">
-      <h1 className="text-center font-semibold ">Dodaj mieszkańca akademika</h1>
+    <div className="w-[40%] h-96 bg-white rounded-lg flex flex-col items-center text-black p-4">
+      <h1 className="text-center font-semibold text-xl mb-2">
+        Dodaj mieszkańca akademika
+      </h1>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col w-[40%] mt-9 gap-3"
+        className="flex flex-col w-full gap-2 overflow-y-auto"
+        style={{ maxHeight: 'calc(100% - 50px)' }} // Zachowanie miejsca na nagłówek i przyciski
         autoComplete="off"
       >
-        <div className="flex flex-row justify-between">
-          <label htmlFor="login">Login:</label>
+        <div className="flex flex-col">
+          <label htmlFor="login" className="text-sm">
+            Login:
+          </label>
           <input
             type="text"
             id="login"
@@ -76,11 +82,13 @@ const CreateUser = () => {
             onChange={handleChange}
             required
             autoComplete="new-password"
-            className="border-b-[1px] border-black rounded-lg "
+            className="border px-2 py-1 rounded"
           />
         </div>
-        <div className="flex flex-row justify-between">
-          <label htmlFor="password">Hasło:</label>
+        <div className="flex flex-col">
+          <label htmlFor="password" className="text-sm">
+            Hasło:
+          </label>
           <input
             type="password"
             id="password"
@@ -89,11 +97,13 @@ const CreateUser = () => {
             onChange={handleChange}
             required
             autoComplete="off"
-            className="border-b-[1px] border-black rounded-lg "
+            className="border px-2 py-1 rounded"
           />
         </div>
-        <div className="flex flex-row justify-between">
-          <label htmlFor="first_name">Imię:</label>
+        <div className="flex flex-col">
+          <label htmlFor="first_name" className="text-sm">
+            Imię:
+          </label>
           <input
             type="text"
             id="first_name"
@@ -102,11 +112,13 @@ const CreateUser = () => {
             onChange={handleChange}
             required
             autoComplete="off"
-            className="border-b-[1px] border-black rounded-lg "
+            className="border px-2 py-1 rounded"
           />
         </div>
-        <div className="flex flex-row justify-between">
-          <label htmlFor="last_name">Nazwisko:</label>
+        <div className="flex flex-col">
+          <label htmlFor="last_name" className="text-sm">
+            Nazwisko:
+          </label>
           <input
             type="text"
             id="last_name"
@@ -115,11 +127,13 @@ const CreateUser = () => {
             onChange={handleChange}
             required
             autoComplete="off"
-            className="border-b-[1px] border-black rounded-lg "
+            className="border px-2 py-1 rounded"
           />
         </div>
-        <div className="flex flex-row justify-between">
-          <label htmlFor="room_number">Numer pokoju:</label>
+        <div className="flex flex-col">
+          <label htmlFor="room_number" className="text-sm">
+            Numer pokoju:
+          </label>
           <input
             type="number"
             id="room_number"
@@ -128,18 +142,18 @@ const CreateUser = () => {
             onChange={handleChange}
             required
             autoComplete="off"
-            className="border-b-[1px] border-black rounded-lg "
+            className="border px-2 py-1 rounded"
           />
         </div>
         <button
           type="submit"
-          className="mt-6 px-2 py-1 bg-black rounded-lg text-white"
+          className="mt-2 px-4 py-2 bg-black text-white rounded"
         >
           Dodaj mieszkańca
         </button>
       </form>
-      {message && <p style={{ color: 'green' }}>{message}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {message && <p className="text-green-600 mt-2">{message}</p>}
+      {error && <p className="text-red-600 mt-2">{error}</p>}
     </div>
   );
 };

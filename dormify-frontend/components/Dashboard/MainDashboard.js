@@ -1,6 +1,9 @@
 import React from 'react';
 import CircularPopulation from './CircularPopulation';
-import CreateUser from './createUser';
+import CreateUser from './CreateUser';
+import CreateRoom from './CreateRoom';
+import LatestRooms from './GetLatestRooms';
+import ShowLatestUsers from './ShowLatestUsers';
 
 const MainDashboard = () => {
   return (
@@ -9,11 +12,11 @@ const MainDashboard = () => {
         <CircularPopulation />
         <div className="flex flex-row  gap-5">
           <CreateUser />
-          <CreateUser />
+          <CreateRoom />
         </div>
         <div className="mt-5 flex flex-row gap-5 ">
-          <CreateUser />
-          <CreateUser />
+          <LatestRooms />
+          <ShowLatestUsers />
         </div>
       </div>
     </div>

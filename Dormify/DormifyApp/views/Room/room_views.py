@@ -24,6 +24,33 @@ def get_all_rooms(request):
         return JsonResponse(rooms_list, safe=False)
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
+def get_latest_rooms_by_dormitory(request, dormitory_id):
+    if request.method == 'GET':
+        try:
+            dormitory = Dormitory.objects.get(id=dormitory_id)
+        except Dormitory.DoesNotExist:
+            return JsonResponse({"error": "Akademik o podanym ID nie istnieje"}, status=404)
+
+        # Pobranie 3 ostatnio dodanych pokoi dla danego akademika
+        rooms = Room.objects.filter(dormitory_id=dormitory).order_by('-id')[:3]
+        rooms_list = [
+            {
+                "id": room.id,
+                "dormitory_id": room.dormitory_id.id,
+                "room_number": room.room_number,
+                "capacity": room.capacity,
+                "tenant_count": room.tenant_count,
+                "type": room.type,
+                "floor": room.floor,
+                "rent_cost": str(room.rent_cost),
+            }
+            for room in rooms
+        ]
+        return JsonResponse(rooms_list, safe=False)
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
+
+
 
 def delete_room(request, room_id):
     if request.method == 'DELETE':
