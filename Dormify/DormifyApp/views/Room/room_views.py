@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.db import transaction #atomowość 
 from django.core.exceptions import ValidationError
 from DormifyApp.models import Dormitory, Room
+from django.db.models import Q
 import json
 
 
@@ -61,6 +62,12 @@ def add_room_to_dormitory(request):
                 dormitory = Dormitory.objects.get(id=dormitory_id)
             except Dormitory.DoesNotExist:
                 return JsonResponse({"error": "Akademik o podanym ID nie istnieje"}, status=404)
+
+            if Room.objects.filter(Q(dormitory_id=dormitory) & Q(room_number=room_number)).exists():
+                return JsonResponse(
+                    {"error": f"Pokój o numerze {room_number} już istnieje w tym akademiku."},
+                    status=400
+                )
 
             new_room = Room(
                 dormitory_id=dormitory,
