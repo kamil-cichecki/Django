@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-const Sidenavbar = () => {
+const Sidenavbar = ({ setSelectedComponent }) => {
   return (
     <div className="flex flex-col w-[15%] h-screen p-3">
       <div className="bg-white w-full h-full rounded-lg flex flex-col items-center relative">
@@ -11,19 +11,24 @@ const Sidenavbar = () => {
         <nav className="flex flex-col text-black mt-24">
           <ul className="flex flex-col items-center justify-center gap-10 font-semibold">
             <li>
-              <Link href={'#'}>Strona główna</Link>
+              <button onClick={() => setSelectedComponent('home')}>
+                Strona główna
+              </button>
             </li>
             <li>
-              <Link href={'#'}>Mieszkańcy</Link>
+              <button onClick={() => setSelectedComponent('residents')}>
+                Mieszkańcy
+              </button>
             </li>
             <li>
-              <Link href={'#'}>Pokoje</Link>
+              <button onClick={() => setSelectedComponent('rooms')}>
+                Pokoje
+              </button>
             </li>
             <li>
-              <Link href={'#'}>Zgłoszenia</Link>
-            </li>
-            <li>
-              <Link href={'#'}>Płatności</Link>
+              <button onClick={() => setSelectedComponent('submissions')}>
+                Zgłoszenia
+              </button>
             </li>
           </ul>
         </nav>

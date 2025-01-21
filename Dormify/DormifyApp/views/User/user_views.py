@@ -54,13 +54,14 @@ def get_latest_users(request, dormitory_id):
                 "login": user.login,
                 "first_name": user.first_name,
                 "last_name": user.last_name,
-                "room_number": user.room_id,
+                "room_number": user.room_id.room_number if user.room_id else None,  # Pobranie numeru pokoju
                 "dormitory_id": user.dormitory_id.id,
             }
             for user in users
         ]
         return JsonResponse(users_list, safe=False)
     return JsonResponse({"error": "Invalid request method"}, status=400)
+
 
 def create_student(request):
     if request.method == 'POST':
@@ -115,6 +116,30 @@ def get_users_with_role(request):
     if request.method == 'GET':
         try:
             userData = User.objects.filter(role=1)
+            user_list = [
+                {
+                    "id": user.id,
+                    "login": user.login,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "role": user.role,
+                }
+                for user in userData
+            ]
+
+            return JsonResponse({
+                'message': 'Lista użytkowników z rolą 1',
+                'users': user_list
+            }, status=200)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Metoda GET wymagana'}, status=405)
+
+def get_all_users(request, dormitory_id):
+    if request.method == 'GET':
+        try:
+            userData = User.objects.filter(dormitory_id = dormitory_id, role=0)
             user_list = [
                 {
                     "id": user.id,
