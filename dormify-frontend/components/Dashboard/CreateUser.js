@@ -1,13 +1,20 @@
 'use client';
 import React, { useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 const CreateUser = () => {
+  const accessToken = localStorage.getItem('access');
+  const decodedPayload = jwtDecode(accessToken);
+
+  const data = decodedPayload.dormitory_id_id;
+
   const [formData, setFormData] = useState({
     login: '',
     password: '',
     first_name: '',
     last_name: '',
-    room_id: '',
+    room_number: '',
+    dormitory_id: data,
   });
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
@@ -24,7 +31,6 @@ const CreateUser = () => {
     e.preventDefault();
     setMessage(null);
     setError(null);
-
     try {
       const response = await fetch('http://127.0.0.1:8000/users/create_user/', {
         method: 'POST',
@@ -113,12 +119,12 @@ const CreateUser = () => {
           />
         </div>
         <div className="flex flex-row justify-between">
-          <label htmlFor="room_id">ID pokoju:</label>
+          <label htmlFor="room_number">Numer pokoju:</label>
           <input
             type="number"
-            id="room_id"
-            name="room_id"
-            value={formData.room_id}
+            id="room_number"
+            name="room_number"
+            value={formData.room_number}
             onChange={handleChange}
             required
             autoComplete="off"

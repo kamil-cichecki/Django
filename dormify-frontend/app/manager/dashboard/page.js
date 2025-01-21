@@ -6,7 +6,6 @@ import { getOneDom } from '@/lib/getOneDom';
 import MainDashboard from '@/components/Dashboard/MainDashboard';
 import Sidenavbar from '@/components/Dashboard/Sidenavbar';
 import Searchbar from '@/components/Dashboard/Searchbar';
-import createUser from '@/components/Dashboard/createUser';
 
 export default function Dashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
