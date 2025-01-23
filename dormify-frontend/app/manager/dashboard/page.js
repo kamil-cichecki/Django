@@ -12,6 +12,7 @@ import Submissions from '@/components/Dashboard/Submissions';
 export default function Dashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [dom, setDom] = useState([]);
+  const [dormitory_id, setDormitory_id] = useState();
   const [selectedComponent, setSelectedComponent] = useState('home');
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export default function Dashboard() {
       const decodedPayload = jwtDecode(accessToken);
 
       const data = await getOneDom(decodedPayload.dormitory_id_id);
+      setDormitory_id(decodedPayload.dormitory_id_id);
       setDom(data);
       console.log(data);
     };
@@ -42,7 +44,7 @@ export default function Dashboard() {
       case 'residents':
         return <Residents />;
       case 'rooms':
-        return <Rooms />;
+        return <Rooms dormitoryId={dormitory_id} />;
       case 'submissions':
         return <Submissions />;
       default:

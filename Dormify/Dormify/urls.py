@@ -52,9 +52,9 @@ urlpatterns = [
     #Rooms
     path('rooms/add/', add_room_to_dormitory, name='add_room_to_dormitory'),
     path('rooms/', get_all_rooms, name='get_all_rooms'),
-    path('rooms/<int:room_id>/', delete_room, name='delete_room'),
+    path('rooms/delete/<int:room_id>/', delete_room, name='delete_room'),
     path('rooms/getlatest/<int:dormitory_id>/', get_latest_rooms_by_dormitory, name='get_latest_rooms_by_dormitory'),
-    path('get_room_status_by_dormitory/<int:dormitory_id>/', get_room_status_by_dormitory, name='room_status_by_dormitory'),
+    path('rooms/status/<int:dormitory_id>/', get_room_status_by_dormitory, name='room_status_by_dormitory'),
     path('rooms/edit/<int:room_id>/', edit_room, name="edit_room"),
 
 ]
