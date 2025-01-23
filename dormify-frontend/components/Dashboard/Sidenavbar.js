@@ -2,6 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 
 const Sidenavbar = ({ setSelectedComponent }) => {
+  const handleLogout = async () => {
+    localStorage.clear();
+    window.location.href = '/';
+  };
   return (
     <div className="flex flex-col w-[15%] h-screen p-3">
       <div className="bg-white w-full h-full rounded-lg flex flex-col items-center relative">
@@ -33,7 +37,10 @@ const Sidenavbar = ({ setSelectedComponent }) => {
           </ul>
         </nav>
         <div className="absolute bottom-0 text-black left-0  w-full mb-9 h-16 flex items-center justify-items-center justify-center">
-          <button className=" p-4 rounded-lg font-semibold bg-gray-100">
+          <button
+            onClick={() => handleLogout()}
+            className=" p-4 rounded-lg font-semibold bg-gray-100"
+          >
             Wyloguj się
           </button>
         </div>
