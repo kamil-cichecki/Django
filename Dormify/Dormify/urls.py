@@ -49,7 +49,6 @@ urlpatterns = [
     path('dormitories/<int:dormitory_id>/', get_dormitory_by_id, name='get_dormitory_by_id'),
     path('dormitories/<int:dormitory_id>/population/', get_dormitory_population, name='get_dormitory_population'),
     path('dormitories/occupancy/<int:dormitory_id>/', get_dormitory_occupancy, name='get_dormitory_occupancy'),
-    #Room
     path('rooms/add/', add_room_to_dormitory, name='add_room_to_dormitory'),
     path('rooms/', get_all_rooms, name='get_all_rooms'),
     path('rooms/<int:room_id>/', delete_room, name='delete_room'),
