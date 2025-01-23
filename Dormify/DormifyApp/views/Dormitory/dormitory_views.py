@@ -85,6 +85,23 @@ def get_dormitory_by_id(request, dormitory_id):
             return JsonResponse({"error": "Akademik o podanym ID nie istnieje"}, status=404)
     return JsonResponse({"error": "Metoda GET wymagana"}, status=400)
 
+def get_dormitory_occupancy(request, dormitory_id):
+    if request.method == 'GET':
+        try:
+            dormitory = Dormitory.objects.get(id=dormitory_id)
+
+            if dormitory.capacity == 0:
+                return JsonResponse({"error": "Akademik nie ma ustawionej pojemności."}, status=400)
+
+            occupancy_rate = dormitory.population / dormitory.capacity
+            return JsonResponse({"occupancy_rate": round(occupancy_rate, 2)}, safe=False)
+        except Dormitory.DoesNotExist:
+            return JsonResponse({"error": "Akademik o podanym ID nie istnieje."}, status=404)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
+
 
 def get_dormitory_population(request, dormitory_id):
     if request.method == 'GET':

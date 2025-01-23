@@ -14,7 +14,7 @@ const ShowLatestUsers = () => {
         const dormitoryId = decodedPayload.dormitory_id_id;
 
         const response = await fetch(
-          `http://127.0.0.1:8000/users/getlatestusers/${dormitoryId}/`
+          `http://127.0.0.1:8000/users/getlatestusers/${dormitoryId}`
         );
         if (!response.ok) {
           throw new Error('Nie udało się pobrać danych użytkowników.');

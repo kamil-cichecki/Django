@@ -141,6 +141,7 @@ const CreateRoom = () => {
             onChange={handleChange}
             required
             className="border px-2 py-1 rounded"
+            max={10}
           />
         </div>
         <div className="flex flex-col">
