@@ -62,6 +62,7 @@ class Report(models.Model):
             ('inne', 'inne')
             )
 
+    dormitory_id = models.ForeignKey(Dormitory, on_delete=models.SET_NULL, null=True, blank=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=50, choices=STATUS, default='Przyjęto')
     title = models.CharField(max_length=200, help_text="tytuł zgłoszenia")
@@ -81,6 +82,7 @@ class Payment(models.Model):
             ('Nieopłacone', 'Nieopłacone')
             )
 
+    dormitory_id = models.ForeignKey(Dormitory, on_delete=models.SET_NULL, null=True, blank=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.BooleanField(default=False)

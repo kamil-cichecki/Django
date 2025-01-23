@@ -88,9 +88,8 @@ def edit_user(request, user_id):
 def delete_user(request, user_id):
     if request.method == 'DELETE':
         try:
-            # Pobierz użytkownika na podstawie user_id
             user = get_object_or_404(User, id=user_id)
-            user.delete()  # Usuń użytkownika
+            user.delete()
             return JsonResponse({"message": "User deleted successfully"}, status=200)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
@@ -217,7 +216,7 @@ def assign_dormitory(request):
             return JsonResponse({'error': 'Nie znaleziono użytkownika'}, status=404)
         except Exception as e:
             import traceback
-            traceback.print_exc()  # Zapisz pełny stack trace w logach
+            traceback.print_exc()
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Metoda POST wymagana'}, status=405)

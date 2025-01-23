@@ -20,6 +20,7 @@ from ninja import NinjaAPI
 from DormifyApp.views.User.user_views import user_login, get_users_with_role, assign_dormitory, create_student, get_latest_users, get_all_users, delete_user,edit_user
 from DormifyApp.views.Dormitory.dormitory_views import register_dormitory, get_all_dormitories, delete_dormitory, accept_dormitory, delete_dormitory, get_dormitory_by_id, get_dormitory_occupancy, get_dormitory_population
 from DormifyApp.views.Room.room_views import add_room_to_dormitory, delete_room, get_all_rooms,get_room_status_by_dormitory, get_latest_rooms_by_dormitory, edit_room
+from DormifyApp.views.Report.report_views import get_reports_by_dormitory, create_report, delete_report
 
 
 #ninja Django
@@ -56,6 +57,10 @@ urlpatterns = [
     path('rooms/getlatest/<int:dormitory_id>/', get_latest_rooms_by_dormitory, name='get_latest_rooms_by_dormitory'),
     path('rooms/status/<int:dormitory_id>/', get_room_status_by_dormitory, name='room_status_by_dormitory'),
     path('rooms/edit/<int:room_id>/', edit_room, name="edit_room"),
+    #Reports
+    path('reports/dormitory/<int:dormitory_id>/', get_reports_by_dormitory, name='get_reports_by_dormitory'),
+    path('reports/create/', create_report, name='create_report'),
+    path('reports/delete/<int:report_id>/', delete_report, name='delete_report'),
 
 ]
 
