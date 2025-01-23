@@ -1,7 +1,7 @@
 import json
 from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 from pydantic import ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -60,6 +60,40 @@ def get_latest_users(request, dormitory_id):
             for user in users
         ]
         return JsonResponse(users_list, safe=False)
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
+def edit_user(request, user_id):
+    if request.method == 'PUT':
+        try:
+            user = User.objects.get(id=user_id)
+            
+            data = json.loads(request.body)
+            
+            user.first_name = data.get('first_name', user.first_name)
+            user.last_name = data.get('last_name', user.last_name)
+            user.login = data.get('login', user.login)
+            
+            user.save()
+
+            return JsonResponse({"message": "User updated successfully"}, status=200)
+        
+        except User.DoesNotExist:
+            return JsonResponse({"error": "User not found"}, status=404)
+        
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
+def delete_user(request, user_id):
+    if request.method == 'DELETE':
+        try:
+            # Pobierz użytkownika na podstawie user_id
+            user = get_object_or_404(User, id=user_id)
+            user.delete()  # Usuń użytkownika
+            return JsonResponse({"message": "User deleted successfully"}, status=200)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
 
