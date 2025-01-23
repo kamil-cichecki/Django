@@ -7,7 +7,7 @@ import Sidenavbar from '@/components/Dashboard/Sidenavbar';
 import Searchbar from '@/components/Dashboard/Searchbar';
 import Residents from '@/components/Dashboard/Residents';
 import Rooms from '@/components/Dashboard/Rooms';
-import Submissions from '@/components/Dashboard/Submissions';
+import Reports from '@/components/Dashboard/Reports';
 
 export default function Dashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -46,7 +46,7 @@ export default function Dashboard() {
       case 'rooms':
         return <Rooms dormitoryId={dormitory_id} />;
       case 'submissions':
-        return <Submissions />;
+        return <Reports dormitoryId={dormitory_id} />;
       default:
         return <MainDashboard />;
     }
