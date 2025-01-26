@@ -8,6 +8,7 @@ class Dormitory(models.Model):
     address = models.CharField(max_length=300)
     manager = models.CharField(max_length=200, help_text="kierownik akademika")
     population = models.IntegerField(help_text="liczba mieszkańców", default=0)
+    capacity = models.IntegerField(help_text="liczba miejsc", default=0)
     room_count = models.IntegerField(help_text="liczba pokoi", default=0)
     isAccepted = models.BooleanField(default=False)
 
@@ -42,8 +43,10 @@ class User(models.Model):
     last_name = models.CharField(max_length=60)
     room_id = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
     role = models.IntegerField(choices=ROLE, validators=[MinValueValidator(0), MaxValueValidator(5)])
-    student_status = models.BooleanField(default=True)
-    washes_number = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=5)
+    student_status = models.BooleanField(default=True, null=True)
+    washes_number = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=5, null=True)
+    dormitory_id = models.ForeignKey(Dormitory, on_delete=models.SET_NULL, null=True, blank=True)
+
 
 class Report(models.Model): 
 
@@ -59,6 +62,7 @@ class Report(models.Model):
             ('inne', 'inne')
             )
 
+    dormitory_id = models.ForeignKey(Dormitory, on_delete=models.SET_NULL, null=True, blank=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=50, choices=STATUS, default='Przyjęto')
     title = models.CharField(max_length=200, help_text="tytuł zgłoszenia")
@@ -78,10 +82,9 @@ class Payment(models.Model):
             ('Nieopłacone', 'Nieopłacone')
             )
 
+    dormitory_id = models.ForeignKey(Dormitory, on_delete=models.SET_NULL, null=True, blank=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.BooleanField(default=False)
     date_payment = models.DateField()
-    payment_deadline = models.DateField()
-
-
+    payment_deadline = models.DateField() 
