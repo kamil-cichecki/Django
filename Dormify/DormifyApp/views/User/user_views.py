@@ -222,3 +222,27 @@ def assign_dormitory(request):
 
     return JsonResponse({'error': 'Metoda POST wymagana'}, status=405)
 
+def reset_payment_status(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            dormitory_id = data.get('dormitory_id')
+
+            if not dormitory_id:
+                return JsonResponse({"error": "Nie podano ID akademika."}, status=400)
+
+            users = User.objects.filter(dormitory_id=dormitory_id)
+
+            if not users.exists():
+                return JsonResponse({"error": "Brak użytkowników w podanym akademiku."}, status=404)
+
+            users.update(is_payment_paid=False)
+
+            return JsonResponse({
+                "message": f"Pomyślnie zresetowano status płatności dla {users.count()} użytkowników w akademiku {dormitory_id}."
+            }, status=200)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid request method."}, status=400)
