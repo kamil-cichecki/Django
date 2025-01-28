@@ -137,7 +137,11 @@ const Residents = ({ dormitoryId }) => {
             >
               Nazwisko
             </th>
+
             <th className="border border-gray-500 px-4 py-2">Akcja</th>
+            <th className="border border-gray-500 px-4 py-2">
+              Zaakceptuj płatność
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -168,6 +172,14 @@ const Residents = ({ dormitoryId }) => {
                   className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700"
                 >
                   Usuń
+                </button>
+              </td>
+              <td className="border border-gray-500 px-4 py-2 space-x-2">
+                <button
+                  onClick={() => AcceptPayment(user.id)}
+                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-700"
+                >
+                  Zaakceptuj
                 </button>
               </td>
             </tr>

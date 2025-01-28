@@ -22,10 +22,12 @@ export default function Navbar() {
         <div>
           <ul className="flex w-fit h-fit flex-row gap-5 items-center ml-40">
             <li>Strona główna</li>
-            <li></li>
+            <li>
+              <a href="#about">O nas</a>
+            </li>
 
             <li>
-              <a href="#contect">Kontakt</a>
+              <a href="#contact">Kontakt</a>
             </li>
           </ul>
         </div>
