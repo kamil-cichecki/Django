@@ -221,5 +221,3 @@ def assign_dormitory(request):
 
     return JsonResponse({'error': 'Metoda POST wymagana'}, status=405)
 
-#Student - User 
-
