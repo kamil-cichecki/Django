@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { deleteUser } from '@/lib/deleteUser';
 import { Modal } from './Modal';
 import { IoSearchOutline } from 'react-icons/io5';
+import { acceptPayment } from '@/lib/acceptPayment';
 
 const Residents = ({ dormitoryId }) => {
   const [users, setUsers] = useState([]);
@@ -98,6 +99,16 @@ const Residents = ({ dormitoryId }) => {
   const handleDelete = async (id) => {
     const deleteU = await deleteUser(id);
     alert('Użytkownik usunięty');
+    return deleteU;
+  };
+
+  if (error) {
+    return <div>Błąd: {error}</div>;
+  }
+
+  const AcceptPayment = async (id) => {
+    const deleteU = await acceptPayment(id);
+    alert('Płatność zaakceptowana');
     return deleteU;
   };
 

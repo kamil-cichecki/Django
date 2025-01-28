@@ -1,16 +1,15 @@
 from django.http import JsonResponse
 from DormifyApp.models import Payment, User
+from django.utils.timezone import now
 import json
 
 #manager ma widok ze wszystkimi uzytkownikami w zakładce payments - wyswietla mu się lista uzytkownikow i po prawo ma przycisk do zatwierdzania płatności. 
 #w momencie gdy przejdzie przelew od uzytkownika X, znajduje go na liście i klika przycisk by zatwierdzić płatność od danego mieszkańca. Wtedy tworzy się obiekt typu Payment
 
-def create_payment(request):
+def create_payment(request, user_id):
     if request.method == 'POST':
         try:
-            # Pobierz dane z żądania
-            data = json.loads(request.body.decode('utf-8'))
-            user_id = data.get('user_id')
+
 
             # Znajdź użytkownika
             try:
