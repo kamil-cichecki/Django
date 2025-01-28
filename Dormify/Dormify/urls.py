@@ -21,6 +21,7 @@ from DormifyApp.views.User.user_views import user_login, get_users_with_role, as
 from DormifyApp.views.Dormitory.dormitory_views import register_dormitory, get_all_dormitories, delete_dormitory, accept_dormitory, delete_dormitory, get_dormitory_by_id, get_dormitory_occupancy, get_dormitory_population
 from DormifyApp.views.Room.room_views import add_room_to_dormitory, delete_room, get_all_rooms,get_room_status_by_dormitory, get_latest_rooms_by_dormitory, edit_room
 from DormifyApp.views.Report.report_views import get_reports_by_dormitory, create_report, delete_report
+from DormifyApp.views.Laundry.laundy_view import get_laundry_reservations, save_laundry_reservations
 
 
 #ninja Django
@@ -61,6 +62,8 @@ urlpatterns = [
     path('reports/dormitory/<int:dormitory_id>/', get_reports_by_dormitory, name='get_reports_by_dormitory'),
     path('reports/create/', create_report, name='create_report'),
     path('reports/delete/<int:report_id>/', delete_report, name='delete_report'),
-
+    #Laundry
+    path('laundry/save/<int:dormitory_id>/', save_laundry_reservations, name='save_laundry_reservations'),
+    path('laundry/get/<int:dormitory_id>/', get_laundry_reservations, name='get_laundry_reservations'),
 ]
 

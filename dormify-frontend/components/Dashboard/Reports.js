@@ -1,5 +1,9 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import { FaCheck } from 'react-icons/fa';
+import { deleteReport } from '@/lib/deleteReport';
+import { IoSearchOutline } from 'react-icons/io5';
+import { IoIosSettings } from 'react-icons/io';
 
 const Reports = ({ dormitoryId }) => {
   const [reports, setReports] = useState([]);
@@ -23,6 +27,12 @@ const Reports = ({ dormitoryId }) => {
 
     fetchReports();
   }, [dormitoryId]);
+
+  const handleDelete = async (id) => {
+    const deleteU = await deleteReport(id);
+    alert('Zgłoszenie wykonane!');
+    return deleteU;
+  };
 
   const sortReports = (key) => {
     let direction = 'asc';
@@ -93,6 +103,7 @@ const Reports = ({ dormitoryId }) => {
               Data{getSortIndicator('date')}
             </th>
             <th className="border border-gray-500 px-4 py-2">Treść</th>
+            <th className="border border-gray-500 px-4 py-2">Akcja</th>
           </tr>
         </thead>
         <tbody>
@@ -121,6 +132,14 @@ const Reports = ({ dormitoryId }) => {
               </td>
               <td className="border border-gray-500 px-4 py-2">
                 {report.content}
+              </td>
+              <td className="border border-gray-500 px-4 py-2">
+                <button
+                  onClick={() => handleDelete(report.id)}
+                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-700"
+                >
+                  <FaCheck />
+                </button>
               </td>
             </tr>
           ))}

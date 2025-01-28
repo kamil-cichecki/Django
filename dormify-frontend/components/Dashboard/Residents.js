@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { deleteUser } from '@/lib/deleteUser';
 import { Modal } from './Modal';
+import { IoSearchOutline } from 'react-icons/io5';
 
 const Residents = ({ dormitoryId }) => {
   const [users, setUsers] = useState([]);

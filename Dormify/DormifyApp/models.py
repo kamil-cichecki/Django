@@ -71,6 +71,7 @@ class Report(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
 class Laundry(models.Model):
+    dormitory_id = models.ForeignKey(Dormitory, on_delete=models.SET_NULL, null=True, blank=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     reservation_start = models.DateTimeField(help_text="Data i godzina rozpoczęcia prania")
     reservation_end = models.DateTimeField(help_text="Data i godzina zakończenia prania")

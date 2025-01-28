@@ -11,18 +11,24 @@ def get_reports_by_dormitory(request, dormitory_id):
             if not reports.exists():
                 return JsonResponse({"message": "Brak zgłoszeń dla tego akademika."}, status=404)
 
-            reports_list = [
-                {
+            reports_list = []
+            for report in reports:
+                try:
+                    # Konwersja daty na format 'YYYY-MM-DD HH:MM:SS'
+                    formatted_date = report.date.strftime('%Y-%m-%d %H:%M:%S')
+                except AttributeError:
+                    # Obsługa sytuacji, gdy pole date jest None lub nie jest poprawnym datetime
+                    formatted_date = None
+
+                reports_list.append({
                     "id": report.id,
                     "user_id": report.user_id.id,
                     "status": report.status,
                     "title": report.title,
                     "type": report.type,
                     "content": report.content,
-                    "date": report.date.strftime('%Y-%m-%d %H:%M:%S')
-                }
-                for report in reports
-            ]
+                    "date": formatted_date,
+                })
 
             return JsonResponse(reports_list, safe=False, status=200)
         except Exception as e:
