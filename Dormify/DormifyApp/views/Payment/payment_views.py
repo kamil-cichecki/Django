@@ -9,9 +9,6 @@ from django.utils.timezone import now
 
 def create_payment(request, user_id):
     if request.method == 'POST':
-        try:
-            data = json.loads(request.body.decode('utf-8'))
-            user_id = data.get('user_id')
 
             try:
                 user = User.objects.get(id=user_id)
@@ -43,8 +40,5 @@ def create_payment(request, user_id):
                 "date_payment": payment.date_payment,
                 "is_payment_paid": user.is_payment_paid
             }, status=201)
-
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
 
     return JsonResponse({"error": "Invalid request method."}, status=400)
