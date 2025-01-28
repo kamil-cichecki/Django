@@ -2,8 +2,6 @@
 from django.contrib import admin
 from django.urls import path
 from ninja import NinjaAPI
-from DormifyApp.views.user_views import user_login
-from DormifyApp.views.dormitory_views import register_dormitory
 from DormifyApp.views.admin_views import accept_dormitory
 from DormifyApp.views.User.user_views import user_login, get_users_with_role, assign_dormitory, create_student, get_latest_users, get_all_users, delete_user,edit_user
 from DormifyApp.views.Dormitory.dormitory_views import register_dormitory, get_all_dormitories, delete_dormitory, accept_dormitory, delete_dormitory, get_dormitory_by_id, get_dormitory_occupancy, get_dormitory_population
@@ -53,3 +51,4 @@ urlpatterns = [
     #Laundry
     path('laundry/save/<int:dormitory_id>/', save_laundry_reservations, name='save_laundry_reservations'),
     path('laundry/get/<int:dormitory_id>/', get_laundry_reservations, name='get_laundry_reservations'),
+]

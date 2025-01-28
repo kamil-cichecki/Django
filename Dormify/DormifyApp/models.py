@@ -46,6 +46,7 @@ class User(models.Model):
     student_status = models.BooleanField(default=True, null=True)
     washes_number = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=5, null=True)
     dormitory_id = models.ForeignKey(Dormitory, on_delete=models.SET_NULL, null=True, blank=True)
+    is_payment_paid = models.BooleanField(default=False, null=True)
 
 
 class Report(models.Model): 
@@ -88,4 +89,3 @@ class Payment(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.BooleanField(default=False)
     date_payment = models.DateField()
-    payment_deadline = models.DateField() 

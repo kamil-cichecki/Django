@@ -34,6 +34,5 @@ class LaundryAdmin(admin.ModelAdmin):
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'amount', 'status', 'date_payment', 'payment_deadline')
+    list_display = ('user_id', 'amount', 'status', 'date_payment')
     search_fields = ('user_id__login',)
-    list_filter = ('status', 'payment_deadline')
