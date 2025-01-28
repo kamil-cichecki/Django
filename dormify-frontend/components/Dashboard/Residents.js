@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { deleteUser } from '@/lib/deleteUser';
 import { Modal } from './Modal';
 import { IoSearchOutline } from 'react-icons/io5';
+import { acceptPayment } from '@/lib/acceptPayment';
 
 const Residents = ({ dormitoryId }) => {
   const [users, setUsers] = useState([]);
@@ -105,6 +106,16 @@ const Residents = ({ dormitoryId }) => {
     return <div>Błąd: {error}</div>;
   }
 
+  const AcceptPayment = async (id) => {
+    const deleteU = await acceptPayment(id);
+    alert('Płatność zaakceptowana');
+    return deleteU;
+  };
+
+  if (error) {
+    return <div>Błąd: {error}</div>;
+  }
+
   return (
     <div className="overflow-x-auto">
       <table
@@ -137,7 +148,11 @@ const Residents = ({ dormitoryId }) => {
             >
               Nazwisko
             </th>
+
             <th className="border border-gray-500 px-4 py-2">Akcja</th>
+            <th className="border border-gray-500 px-4 py-2">
+              Zaakceptuj płatność
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -168,6 +183,14 @@ const Residents = ({ dormitoryId }) => {
                   className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700"
                 >
                   Usuń
+                </button>
+              </td>
+              <td className="border border-gray-500 px-4 py-2 space-x-2">
+                <button
+                  onClick={() => AcceptPayment(user.id)}
+                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-700"
+                >
+                  Zaakceptuj
                 </button>
               </td>
             </tr>
