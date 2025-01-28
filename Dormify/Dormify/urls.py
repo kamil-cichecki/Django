@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path
 from ninja import NinjaAPI
 from DormifyApp.views.admin_views import accept_dormitory
-from DormifyApp.views.User.user_views import user_login, get_users_with_role, assign_dormitory, create_student, get_latest_users, get_all_users, delete_user,edit_user
+from DormifyApp.views.User.user_views import user_login, get_users_with_role, assign_dormitory, create_student, get_latest_users, get_all_users, delete_user,edit_user, reset_payment_status
 from DormifyApp.views.Dormitory.dormitory_views import register_dormitory, get_all_dormitories, delete_dormitory, accept_dormitory, delete_dormitory, get_dormitory_by_id, get_dormitory_occupancy, get_dormitory_population
 from DormifyApp.views.Room.room_views import add_room_to_dormitory, delete_room, get_all_rooms,get_room_status_by_dormitory, get_latest_rooms_by_dormitory, edit_room
 from DormifyApp.views.Report.report_views import get_reports_by_dormitory, create_report, delete_report
@@ -31,6 +31,7 @@ urlpatterns = [
     path('users/assign_dormitory/',assign_dormitory, name='get_users_with_role'),
     path('users/create_user/',create_student, name='create_user'),
     path('users/getlatestusers/<int:dormitory_id>',get_latest_users, name='get_latest_users'),
+    path('reset-payment-status/',reset_payment_status, name='reset_payment_status'),
     #Dormitory
     path('allDormitories/', get_all_dormitories, name='get_all_dormitories'),
     path('dormitories/<int:dormitory_id>/accept/', accept_dormitory, name='accept_dormitory'),
