@@ -220,3 +220,6 @@ def assign_dormitory(request):
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Metoda POST wymagana'}, status=405)
+
+#Student - User 
+

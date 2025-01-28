@@ -1,22 +1,10 @@
-"""
-URL configuration for Dormify project.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
 from ninja import NinjaAPI
+from DormifyApp.views.user_views import user_login
+from DormifyApp.views.dormitory_views import register_dormitory
+from DormifyApp.views.admin_views import accept_dormitory
 from DormifyApp.views.User.user_views import user_login, get_users_with_role, assign_dormitory, create_student, get_latest_users, get_all_users, delete_user,edit_user
 from DormifyApp.views.Dormitory.dormitory_views import register_dormitory, get_all_dormitories, delete_dormitory, accept_dormitory, delete_dormitory, get_dormitory_by_id, get_dormitory_occupancy, get_dormitory_population
 from DormifyApp.views.Room.room_views import add_room_to_dormitory, delete_room, get_all_rooms,get_room_status_by_dormitory, get_latest_rooms_by_dormitory, edit_room
@@ -24,7 +12,6 @@ from DormifyApp.views.Report.report_views import get_reports_by_dormitory, creat
 from DormifyApp.views.Laundry.laundy_view import get_laundry_reservations, save_laundry_reservations
 
 
-#ninja Django
 api = NinjaAPI()
 
 @api.get("/add")
@@ -37,6 +24,7 @@ urlpatterns = [
     path("api/", api.urls),
     path('login/', user_login, name='user_login'),
     path('register_dormitory/', register_dormitory, name='register_dormitory'),
+    path('accept_dormitory/', accept_dormitory, name='accept_dormitory'),
     path('users/', get_users_with_role, name='get_users_with_role'),
     path('users/delete/<int:user_id>/', delete_user, name='delete_user'),
     path('users/edit/<int:user_id>/', edit_user, name='edit_user'),
@@ -65,5 +53,3 @@ urlpatterns = [
     #Laundry
     path('laundry/save/<int:dormitory_id>/', save_laundry_reservations, name='save_laundry_reservations'),
     path('laundry/get/<int:dormitory_id>/', get_laundry_reservations, name='get_laundry_reservations'),
-]
-
