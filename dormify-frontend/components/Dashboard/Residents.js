@@ -186,12 +186,17 @@ const Residents = ({ dormitoryId }) => {
                 </button>
               </td>
               <td className="border border-gray-500 px-4 py-2 space-x-2">
-                <button
-                  onClick={() => AcceptPayment(user.id)}
-                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-700"
-                >
-                  Zaakceptuj
-                </button>
+                {console.log(user.is_payment_paid)}
+                {!user.is_payment_paid ? (
+                  <button
+                    onClick={() => AcceptPayment(user.id)}
+                    className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-700"
+                  >
+                    Zaakceptuj
+                  </button>
+                ) : (
+                  <p className="text-black opacity-50 ">Zapłacono</p>
+                )}
               </td>
             </tr>
           ))}

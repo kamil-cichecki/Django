@@ -180,6 +180,7 @@ def get_all_users(request, dormitory_id):
                     "first_name": user.first_name,
                     "last_name": user.last_name,
                     "role": user.role,
+                    "is_payment_paid": user.is_payment_paid
                 }
                 for user in userData
             ]
