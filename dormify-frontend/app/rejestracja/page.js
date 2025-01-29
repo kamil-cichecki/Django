@@ -11,7 +11,6 @@ export default function User() {
   const [streetNumber, setStreetNumber] = useState('');
   const [pCode, setPCode] = useState('');
   const [city, setCity] = useState('');
-  const [manager, setManager] = useState('');
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -19,14 +18,7 @@ export default function User() {
     setError(null);
 
     try {
-      const data = await registerDom(
-        name,
-        street,
-        streetNumber,
-        pCode,
-        city,
-        manager
-      );
+      const data = await registerDom(name, street, streetNumber, pCode, city);
       alert('Zarejestrowano pomyślnie');
     } catch (err) {
       setError(err.message);
@@ -107,19 +99,6 @@ export default function User() {
                 required
                 className="rounded-lg pl-2 text-black"
                 placeholder="Miasto"
-              />
-            </div>
-            <div className="flex flex-row justify-between gap-2 items-center">
-              <label>
-                <MdOutlinePassword />
-              </label>
-              <input
-                type="text"
-                value={manager}
-                onChange={(e) => setManager(e.target.value)}
-                required
-                className="rounded-lg pl-2 text-black"
-                placeholder="Kierownik budynku"
               />
             </div>
           </div>
