@@ -4,7 +4,7 @@ import React from 'react';
 export default function HomeInfo() {
   return (
     <div className="bg-gray-300 w-full flex flex-col h-screen ">
-      <section id="about w-full ">
+      <section id="about">
         <h1 className="text-center mt-24 text-6xl">O nas</h1>
         <div className="flex flex-col items-center justify-center justify-items-center w-full h-fit">
           <div className="mt-24 flex flex-row gap-16 items-center text-justify w-[50%]">

@@ -8,7 +8,7 @@ from DormifyApp.views.Dormitory.dormitory_views import register_dormitory, get_a
 from DormifyApp.views.Room.room_views import add_room_to_dormitory, delete_room, get_all_rooms,get_room_status_by_dormitory, get_latest_rooms_by_dormitory, edit_room
 from DormifyApp.views.Report.report_views import get_reports_by_dormitory, create_report, delete_report
 from DormifyApp.views.Laundry.laundy_view import get_laundry_reservations, save_laundry_reservations
-from DormifyApp.views.Payment.payment_views import create_payment
+from DormifyApp.views.Payment.payment_views import create_payment, get_payments_for_dormitory
 
 
 api = NinjaAPI()
@@ -31,7 +31,7 @@ urlpatterns = [
     path('users/assign_dormitory/',assign_dormitory, name='get_users_with_role'),
     path('users/create_user/',create_student, name='create_user'),
     path('users/getlatestusers/<int:dormitory_id>',get_latest_users, name='get_latest_users'),
-    path('reset-payment-status/',reset_payment_status, name='reset_payment_status'),
+    path('users/resetpaymentstatus/<int:dormitory_id>/',reset_payment_status, name='reset_payment_status'),
     #Dormitory
     path('allDormitories/', get_all_dormitories, name='get_all_dormitories'),
     path('dormitories/<int:dormitory_id>/accept/', accept_dormitory, name='accept_dormitory'),
@@ -55,4 +55,6 @@ urlpatterns = [
     path('laundry/get/<int:dormitory_id>/', get_laundry_reservations, name='get_laundry_reservations'),
     #Payments
     path('payments/accept/<int:user_id>/', create_payment, name='create_payment'),
+    path('payments/<int:dormitory_id>/', get_payments_for_dormitory, name='get_payments_for_dormitory'),
+
 ]

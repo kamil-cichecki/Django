@@ -34,6 +34,11 @@ const Sidenavbar = ({ setSelectedComponent }) => {
                 Zgłoszenia
               </button>
             </li>
+            <li>
+              <button onClick={() => setSelectedComponent('payments')}>
+                Płatności
+              </button>
+            </li>
           </ul>
         </nav>
         <div className="absolute bottom-0 text-black left-0  w-full mb-9 h-16 flex items-center justify-items-center justify-center">
