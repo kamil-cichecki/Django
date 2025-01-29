@@ -41,7 +41,7 @@ class User(models.Model):
     password = models.CharField(max_length=50)
     first_name = models.CharField(max_length=60)
     last_name = models.CharField(max_length=60)
-    room_id = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
+    room_id = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True, blank=True)
     role = models.IntegerField(choices=ROLE, validators=[MinValueValidator(0), MaxValueValidator(5)])
     student_status = models.BooleanField(default=True, null=True)
     washes_number = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=5, null=True)

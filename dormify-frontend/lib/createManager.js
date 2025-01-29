@@ -24,11 +24,14 @@ const CreateManagerForm = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/create_manager/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        'http://127.0.0.1:8000/users/create_manager/',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
 
@@ -41,14 +44,8 @@ const CreateManagerForm = () => {
           first_name: '',
           last_name: '',
         });
-      } else {
-        setError(data.error || 'Nie udało się utworzyć managera.');
-        setMessage('');
       }
-    } catch (err) {
-      setError('Wystąpił błąd podczas tworzenia managera.');
-      setMessage('');
-    }
+    } catch (err) {}
   };
 
   return (
