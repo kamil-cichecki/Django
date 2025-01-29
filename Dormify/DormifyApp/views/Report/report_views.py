@@ -14,10 +14,8 @@ def get_reports_by_dormitory(request, dormitory_id):
             reports_list = []
             for report in reports:
                 try:
-                    # Konwersja daty na format 'YYYY-MM-DD HH:MM:SS'
                     formatted_date = report.date.strftime('%Y-%m-%d %H:%M:%S')
                 except AttributeError:
-                    # Obsługa sytuacji, gdy pole date jest None lub nie jest poprawnym datetime
                     formatted_date = None
 
                 reports_list.append({

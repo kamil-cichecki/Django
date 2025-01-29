@@ -7,18 +7,15 @@ import json
 def save_laundry_reservations(request, dormitory_id):
     if request.method == 'POST':
         try:
-            # Parsowanie danych z requesta
             reservations = json.loads(request.body)
 
-            # Iteracja przez rezerwacje i zapisanie ich do bazy danych
             for reservation_data in reservations:
                 user_id = reservation_data.get('user_id')
                 reservation_start = parse_datetime(reservation_data.get('reservation_start'))
                 reservation_end = parse_datetime(reservation_data.get('reservation_end'))
 
-                # Tworzenie nowej rezerwacji
                 laundry_reservation = Laundry(
-                    user_id_id=user_id,  # Zakładając, że jest klucz obcy do User
+                    user_id_id=user_id,
                     reservation_start=reservation_start,
                     reservation_end=reservation_end,
                     dormitory_id_id = dormitory_id
@@ -37,10 +34,8 @@ def save_laundry_reservations(request, dormitory_id):
 def get_laundry_reservations(request, dormitory_id):
     if request.method == 'GET':
         try:
-            # Pobierz wszystkie rezerwacje dla danego akademika
             reservations = Laundry.objects.filter(dormitory_id=dormitory_id)
 
-            # Zbierz wszystkie zarezerwowane dni i godziny
             reserved_slots = []
             for reservation in reservations:
                 reserved_slots.append({

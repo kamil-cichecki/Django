@@ -56,7 +56,7 @@ def get_latest_users(request, dormitory_id):
                 "login": user.login,
                 "first_name": user.first_name,
                 "last_name": user.last_name,
-                "room_number": user.room_id.room_number if user.room_id else None,  # Pobranie numeru pokoju
+                "room_number": user.room_id.room_number if user.room_id else None,
                 "dormitory_id": user.dormitory_id.id,
             }
             for user in users
@@ -224,25 +224,20 @@ def assign_dormitory(request):
 
     return JsonResponse({'error': 'Metoda POST wymagana'}, status=405)
 def reset_payment_status(request, dormitory_id):
-    if request.method == 'DELETE':  # Obsługuje metodę DELETE
+    if request.method == 'DELETE':
         try:
             if not dormitory_id:
                 return JsonResponse({"error": "Nie podano ID akademika."}, status=400)
 
-            # Pobiera użytkowników przypisanych do podanego akademika
             users = User.objects.filter(dormitory_id=dormitory_id)
 
             if not users.exists():
                 return JsonResponse({"error": "Brak użytkowników w podanym akademiku."}, status=404)
 
-            # Pobiera płatności powiązane z tymi użytkownikami
             payments = Payment.objects.filter(user_id__in=users)
 
             with transaction.atomic():
-                # Usuwa rekordy płatności
                 deleted_count, _ = payments.delete()
-
-                # Aktualizuje pole is_payment_paid na False
                 users.update(is_payment_paid=False)
 
             return JsonResponse({
@@ -257,5 +252,4 @@ def reset_payment_status(request, dormitory_id):
         except Exception as e:
             return JsonResponse({"error": f"Wystąpił błąd: {str(e)}"}, status=500)
 
-    # Jeśli metoda żądania nie jest DELETE, zwróć błąd
     return JsonResponse({"error": "Metoda żądania nieobsługiwana."}, status=400)
