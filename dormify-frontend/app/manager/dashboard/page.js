@@ -8,6 +8,7 @@ import Searchbar from '@/components/Dashboard/Searchbar';
 import Residents from '@/components/Dashboard/Residents';
 import Rooms from '@/components/Dashboard/Rooms';
 import Reports from '@/components/Dashboard/Reports';
+import Payments from '@/components/Dashboard/Payments';
 
 export default function Dashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -47,6 +48,8 @@ export default function Dashboard() {
         return <Rooms dormitoryId={dormitory_id} />;
       case 'submissions':
         return <Reports dormitoryId={dormitory_id} />;
+      case 'payments':
+        return <Payments dormitoryId={dormitory_id} />;
       default:
         return <MainDashboard />;
     }

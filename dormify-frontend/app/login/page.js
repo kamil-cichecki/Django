@@ -18,14 +18,17 @@ export default function Admin() {
       const data = await loginUser(login, password);
       const user = await data.users;
 
-      if (user[0].rola == 0) {
+      if (user.role == 0) {
         localStorage.setItem('access', data.access);
         localStorage.setItem('refresh', data.refresh);
+        localStorage.setItem('role', data.users.role);
+
+        window.location.href = '/user';
       } else {
         alert('Brak użytkownika!');
       }
     } catch (err) {
-      setError(err.message);
+      setError('Brak użytkownika');
     }
   };
 

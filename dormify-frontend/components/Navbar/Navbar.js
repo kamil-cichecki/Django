@@ -21,7 +21,9 @@ export default function Navbar() {
         <div className="text-2xl font-bold">Dormify</div>
         <div>
           <ul className="flex w-fit h-fit flex-row gap-5 items-center ml-40">
-            <li>Strona główna</li>
+            <li>
+              <a href="#home">Strona główna</a>
+            </li>
             <li>
               <a href="#about">O nas</a>
             </li>
