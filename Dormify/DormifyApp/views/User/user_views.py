@@ -157,19 +157,16 @@ def create_manager(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body.decode('utf-8'))
+            print(data) 
 
             login = data.get('login')
             password = data.get('password')
             first_name = data.get('first_name')
             last_name = data.get('last_name')
 
-            if not all([login, password, first_name, last_name, ]):
-                return JsonResponse({"error": "Brak wymaganych danych."}, status=400)
-
-
             new_user = User(
                 login=login,
-                password=make_password(password),
+                password=password,
                 first_name=first_name,
                 last_name=last_name,
                 role=1,
