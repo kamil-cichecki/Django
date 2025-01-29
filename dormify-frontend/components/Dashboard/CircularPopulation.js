@@ -21,7 +21,7 @@ const CircularPopulation = () => {
         }
         const data = await response.json();
         setValue(data.occupancy_rate);
-        console.log(data.occupancy_rate); // API powinno zwracać {"occupancy_rate": 0.75}
+        console.log(data.occupancy_rate);
       } catch (err) {
         setError(err.message);
       }
