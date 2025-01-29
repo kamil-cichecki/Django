@@ -5,6 +5,7 @@ import { removeDom } from '@/lib/removeDom';
 import { acceptDom } from '@/lib/acceptDom';
 import { getUsers } from '@/lib/getUsers';
 import { assignDtoM } from '@/lib/assignDtoM';
+import CreateManagerForm from '@/lib/createManager';
 
 const Domanage = () => {
   const [doms, setDoms] = useState([]);
@@ -47,7 +48,7 @@ const Domanage = () => {
 
   return (
     <div className="[background:#080414] h-full">
-      <div className="w-full h-[70%] flex flex-col items-center justify-center text-white">
+      <div className="w-full h-[40%] flex flex-col items-center justify-center text-white">
         <div className="h-full w-full  p-4">
           <table className="w-full border-collapse border border-gray-700 text-white">
             <thead>
@@ -117,48 +118,53 @@ const Domanage = () => {
           </table>
         </div>
       </div>
-      <div className="h-fit w-full items-center justify-items-center justify-center">
-        <h1 className="text-white font-bold text-2xl text-center">
-          Przypisz menadżera
-        </h1>
-      </div>
-      <div className="flex flex-col gap-2 w-full items-center justify-center">
-        <div className="flex flex-row gap-4 mt-7">
-          <select
-            value={selectedDormitory}
-            onChange={(e) => setSelectedDormitory(e.target.value)}
-          >
-            <option value="">Wybierz akademik</option>
-            {doms.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-          <select
-            value={selectedUser}
-            onChange={(e) => setSelectedUser(e.target.value)}
-          >
-            <option value="">Wybierz użytkownika</option>
-            {getallusers.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.first_name + ' ' + item.last_name}
-              </option>
-            ))}
-          </select>
+      <div className="flex flex-row justify-center items-center gap-12">
+        <CreateManagerForm />
+        <div className="flex flex-col">
+          <div className="h-fit w-full items-center justify-items-center justify-center">
+            <h1 className="text-white font-bold text-2xl text-center">
+              Przypisz menadżera
+            </h1>
+          </div>
+          <div className="flex flex-col gap-2 w-full items-center justify-center">
+            <div className="flex flex-row gap-4 mt-7">
+              <select
+                value={selectedDormitory}
+                onChange={(e) => setSelectedDormitory(e.target.value)}
+              >
+                <option value="">Wybierz akademik</option>
+                {doms.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={selectedUser}
+                onChange={(e) => setSelectedUser(e.target.value)}
+              >
+                <option value="">Wybierz użytkownika</option>
+                {getallusers.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.first_name + ' ' + item.last_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button
+              onClick={() => {
+                if (selectedDormitory && selectedUser) {
+                  assignDtoM(selectedDormitory, selectedUser);
+                } else {
+                  alert('Wybierz akademik i użytkownika');
+                }
+              }}
+              className="bg-blue-600 text-white rounded-lg p-2 mt-7"
+            >
+              Przypisz
+            </button>
+          </div>
         </div>
-        <button
-          onClick={() => {
-            if (selectedDormitory && selectedUser) {
-              assignDtoM(selectedDormitory, selectedUser);
-            } else {
-              alert('Wybierz akademik i użytkownika');
-            }
-          }}
-          className="bg-blue-600 text-white rounded-lg p-2 mt-7"
-        >
-          Przypisz
-        </button>
       </div>
     </div>
   );

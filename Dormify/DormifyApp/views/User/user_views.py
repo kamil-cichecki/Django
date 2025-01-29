@@ -146,6 +146,47 @@ def create_student(request):
             return JsonResponse({"error": str(e)}, status=500)
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
+from django.http import JsonResponse
+from django.core.exceptions import ValidationError
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.hashers import make_password
+import json
+
+
+def create_manager(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+
+            login = data.get('login')
+            password = data.get('password')
+            first_name = data.get('first_name')
+            last_name = data.get('last_name')
+
+            if not all([login, password, first_name, last_name, ]):
+                return JsonResponse({"error": "Brak wymaganych danych."}, status=400)
+
+
+            new_user = User(
+                login=login,
+                password=make_password(password),
+                first_name=first_name,
+                last_name=last_name,
+                role=1,
+            )
+            new_user.full_clean() 
+            new_user.save() 
+
+            return JsonResponse({"message": "Manager został pomyślnie utworzony!", "manager_id": new_user.id}, status=201)
+
+        except ValidationError as e:
+            return JsonResponse({"error": e.message_dict}, status=400)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
+
 
 def get_users_with_role(request):
     if request.method == 'GET':

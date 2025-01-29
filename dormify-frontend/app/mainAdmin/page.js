@@ -16,11 +16,16 @@ export default function mainAdmin() {
 
     try {
       const data = await loginUser(login, password);
+      console.log(data);
       const user = await data.users;
 
-      if (user[0].rola == 2) {
+      if (user.role == 2) {
+        //localStorage.clear();
         localStorage.setItem('access', data.access);
         localStorage.setItem('refresh', data.refresh);
+        localStorage.setItem('role', data.users.role);
+
+        window.location.href = '/mainAdmin/domanage';
       } else {
         alert('Brak użytkownika!');
       }
