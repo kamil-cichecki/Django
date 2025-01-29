@@ -91,10 +91,24 @@ def delete_user(request, user_id):
     if request.method == 'DELETE':
         try:
             user = get_object_or_404(User, id=user_id)
+
+            if user.room_id:
+                room = user.room_id
+                room.tenant_count -= 1
+                room.save()
+
+            if user.dormitory_id:
+                dormitory = user.dormitory_id
+                dormitory.population -= 1
+                dormitory.save()
+
             user.delete()
+
             return JsonResponse({"message": "User deleted successfully"}, status=200)
+
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
+
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
 
@@ -135,6 +149,9 @@ def create_student(request):
             new_user.full_clean()
             new_user.save()
 
+            dormitory.population += 1
+            dormitory.save()
+
             room.tenant_count += 1
             room.save()
 
@@ -145,13 +162,6 @@ def create_student(request):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
     return JsonResponse({"error": "Invalid request method"}, status=400)
-
-from django.http import JsonResponse
-from django.core.exceptions import ValidationError
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.hashers import make_password
-import json
-
 
 def create_manager(request):
     if request.method == 'POST':
